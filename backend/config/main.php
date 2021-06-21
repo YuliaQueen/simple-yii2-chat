@@ -13,7 +13,7 @@ return [
     'id' => 'app-backend',
     'language' => 'RU-ru',
     'timeZone' => 'Europe/Moscow',
-    'name' => 'TEST CHAT ADMIN',
+    'name' => 'TEST CHAT',
     'basePath' => dirname(__DIR__),
     'controllerNamespace' => 'backend\controllers',
     'bootstrap' => ['log'],
