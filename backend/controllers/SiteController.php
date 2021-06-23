@@ -3,6 +3,8 @@
 namespace backend\controllers;
 
 use backend\models\forms\LoginForm;
+use common\models\domains\Message;
+use common\models\domains\User;
 use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
@@ -53,7 +55,10 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        return $this->render('index');
+        $messagesCount = Message::find()->notDeleted()->count();
+        $usersCount = User::find()->notDeleted()->notSystem()->count();
+
+        return $this->render('index', compact('messagesCount', 'usersCount'));
     }
 
     /**
