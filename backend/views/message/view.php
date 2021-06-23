@@ -1,19 +1,19 @@
 <?php
 
+use common\models\domains\Message;
 use yii\helpers\Html;
+use yii\web\YiiAsset;
 use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\domains\Message */
 
-$this->title = $model->id;
+$this->title = 'Сообщение от: ' . $model->createdBy->name . ' | ' . date('d M Y', $model->created_at);
 $this->params['breadcrumbs'][] = ['label' => 'Messages', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
-\yii\web\YiiAsset::register($this);
+YiiAsset::register($this);
 ?>
 <div class="message-view">
-
-    <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
         <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
@@ -30,14 +30,35 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
         'attributes' => [
             'id',
-            'from_user_id',
+            [
+                'attribute' => 'from_user_id',
+                'value' => function (Message $model) {
+                    return $model->createdBy->name;
+                },
+            ],
             'text:ntext',
             'is_correct:boolean',
-            'deleted_at',
-            'created_by_id',
-            'updated_by_id',
-            'created_at',
-            'updated_at',
+            'deleted_at:boolean',
+            [
+                'attribute' => 'created_at',
+                'format' => ['date','php:d-m-Y H:i:s'],
+            ],
+            [
+                'attribute' => 'updated_at',
+                'format' => ['date','php:d-m-Y H:i:s'],
+            ],
+            [
+                'attribute' => 'created_by_id',
+                'value' => function (Message $model) {
+                    return $model->createdBy->name;
+                },
+            ],
+            [
+                'attribute' => 'updated_by_id',
+                'value' => function (Message $model) {
+                    return $model->updatedBy->name;
+                },
+            ],
         ],
     ]) ?>
 
