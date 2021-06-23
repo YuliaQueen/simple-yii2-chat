@@ -11,6 +11,7 @@ use yii\base\Exception;
 use yii\base\InvalidArgumentException;
 use yii\data\ActiveDataProvider;
 use yii\db\ActiveRecord;
+use yii\db\StaleObjectException;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use yii\web\Controller;
@@ -44,85 +45,54 @@ class UserController extends Controller
 
     /**
      * Lists all User models.
+     *
      * @return mixed
      * @throws InvalidArgumentException
      */
     public function actionIndex()
     {
-        $dataProvider = new ActiveDataProvider([
-            'query' => User::find()->notDeleted()->notSystem(),
-        ]);
+        $dataProvider = new ActiveDataProvider(
+            [
+                'query' => User::find()->notDeleted()->notSystem(),
+            ]
+        );
 
-        return $this->render('index', [
-            'dataProvider' => $dataProvider,
-        ]);
+        return $this->render(
+            'index',
+            [
+                'dataProvider' => $dataProvider,
+            ]
+        );
     }
 
     /**
-     * Creates a new User model.
-     * If creation is successful, the browser will be redirected to the 'view' page.
-     * @return mixed
-     * @throws Exception
-     */
-    public function actionCreate()
-    {
-        $model = new UserForm();
-        if (Yii::$app->request->isPost) {
-            $model->scenario = UserForm::SCENARIO_CREATE;
-            $model->load(Yii::$app->request->post());
-            if ($model->validate()) {
-                $model->type = UserType::USER;
-                $model->setPassword($model->password);
-                $model->generateAuthKey();
-                $model->save();
-
-                return $this->redirect(['view', 'id' => $model->id]);
-            }
-        }
-
-        return $this->render('create', [
-            'model' => $model,
-        ]);
-    }
-
-    /**
-     * Updates an existing User model.
-     * If update is successful, the browser will be redirected to the 'view' page.
-     * @param int $id
+     * Displays a single Message model.
+     *
+     * @param integer $id
+     *
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionUpdate(int $id)
+    public function actionView(int $id)
     {
-        $model = $this->findModel($id);
-        $model->scenario = UserForm::SCENARIO_UPDATE;
-
-        if ($model->load(Yii::$app->request->post())) {
-            $oldSlackEmail = $model->getOldAttribute('slack_email');
-            if ($model->slack_email != $oldSlackEmail) {
-                $cache = Yii::$app->cache;
-                $key = 'slackId.' . $oldSlackEmail;
-                if ($cache->exists($key)) {
-                    $cache->delete($key);
-                }
-            }
-
-            if ($model->save()) {
-                return $this->redirect(['view', 'id' => $model->id]);
-            }
-        }
-
-        return $this->render('update', [
-            'model' => $model,
-        ]);
+        return $this->render(
+            'view',
+            [
+                'model' => $this->findModel($id),
+            ]
+        );
     }
 
     /**
      * Deletes an existing User model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
+     *
      * @param int $id
+     *
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
+     * @throws \Throwable
+     * @throws StaleObjectException
      */
     public function actionDelete(int $id)
     {
@@ -134,7 +104,9 @@ class UserController extends Controller
     /**
      * Finds the User model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
+     *
      * @param int $id
+     *
      * @return array|User|ActiveRecord
      * @throws NotFoundHttpException if the model cannot be found
      */
