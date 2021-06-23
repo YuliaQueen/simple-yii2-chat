@@ -26,7 +26,7 @@ class UserQuery extends ActiveQuery
      * Добавляет условие на выборку пользователей, не являющихся системными.
      * @return UserQuery
      */
-    public function notSystem()
+    public function notSystem(): UserQuery
     {
         return $this->andWhere(['<>', 'type', UserType::SYSTEM]);
     }

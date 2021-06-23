@@ -2,6 +2,7 @@
 
 namespace backend\modules\rbac\helpers;
 
+use common\models\domains\User;
 use Yii;
 use yii\rbac\ManagerInterface;
 use yii\rbac\Permission;
@@ -11,9 +12,11 @@ class RbacHelper
 {
     /**
      * Проверяет имеются ли у пользователя необходимые разрешения.
+     *
      * @param array|string $permissions Названия разрешение (и ролей), наличие которых проверяется у пользователя.
      * Достаточно одного.
      * Одно разрешение можно передать в виде строки. Несколько разрешений нужно передавать в массиве.
+     *
      * @return bool true - разрешение имеется, false - нет разрешений.
      */
     public static function checkAccess($permissions)
@@ -28,7 +31,9 @@ class RbacHelper
 
     /**
      * Получает все доступные роли и разрешения.
+     *
      * @param ManagerInterface $manager
+     *
      * @return array
      */
     public static function getAvailableItems(ManagerInterface $manager)
@@ -39,7 +44,7 @@ class RbacHelper
         foreach ($manager->getRoles() as $name => $role) {
             $available[$name] = [
                 'type' => 'role',
-                'description' => $role->description
+                'description' => $role->description,
             ];
         }
 
@@ -47,7 +52,7 @@ class RbacHelper
         foreach ($manager->getPermissions() as $name => $permission) {
             $available[$name] = [
                 'type' => 'permission',
-                'description' => $permission->description
+                'description' => $permission->description,
             ];
         }
 

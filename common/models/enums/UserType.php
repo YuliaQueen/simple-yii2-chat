@@ -13,6 +13,7 @@ class UserType extends BaseEnum
 {
     public const SYSTEM = 1;
     public const USER = 2;
+    public const ADMIN = 3;
 
     /**
      * @var array
@@ -20,5 +21,6 @@ class UserType extends BaseEnum
     protected static $list = [
         self::SYSTEM => 'Система',
         self::USER => 'Пользователь',
+        self::ADMIN => 'Администратор',
     ];
 }

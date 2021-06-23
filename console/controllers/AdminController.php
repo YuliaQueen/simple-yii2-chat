@@ -84,7 +84,7 @@ class AdminController extends Controller
         );
         $model->setPassword($password);
 
-        $model->type = UserType::USER;
+        $model->type = UserType::ADMIN;
         $model->auth_key = Yii::$app->security->generateRandomString();
 
         if ($model->save()) {

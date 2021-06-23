@@ -2,6 +2,7 @@
 namespace frontend\models;
 
 use backend\modules\rbac\models\enums\Permission;
+use common\models\enums\UserType;
 use Yii;
 use yii\base\Exception;
 use yii\base\Model;
@@ -54,6 +55,7 @@ class SignupForm extends Model
         $user = new User();
         $user->name = $this->name;
         $user->email = $this->email;
+        $user->type = UserType::USER;
         $user->setPassword($this->password);
         $user->generateAuthKey();
 
