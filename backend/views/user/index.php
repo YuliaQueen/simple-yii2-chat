@@ -40,7 +40,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'class' => ActionColumn::class,
                 'header' => 'Действия',
                 'headerOptions' => ['width' => '80'],
-                'template' => '{update} {delete}'
+                'template' => '{delete}'
             ],
         ],
     ]); ?>
