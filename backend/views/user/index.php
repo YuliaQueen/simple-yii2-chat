@@ -22,7 +22,7 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'attribute' => 'name',
                 'label' => 'ФИО',
-                'value' => function (User $model, $key, $index, $grid) {
+                'value' => function (User $model) {
                     return Html::a(Html::encode($model->name), Url::to(['view', 'id' => $model->id]));
                 },
                 'format' => 'raw',
