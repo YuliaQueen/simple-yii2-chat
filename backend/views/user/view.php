@@ -51,4 +51,3 @@ YiiAsset::register($this);
     ) ?>
 
 </div>
-
