@@ -13,7 +13,7 @@ use yii\db\ActiveQuery;
 class MessageQuery extends ActiveQuery
 {
     /**
-     * Добавляет условие на выборку неудаленных пользователей.
+     * Добавляет условие на выборку неудаленных сообщений.
      * @return MessageQuery
      */
     public function notDeleted(): MessageQuery
