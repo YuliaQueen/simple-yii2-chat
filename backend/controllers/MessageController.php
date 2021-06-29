@@ -4,11 +4,12 @@ namespace backend\controllers;
 
 use Yii;
 use common\models\domains\Message;
-use common\models\queries\MessageQuery;
 use yii\data\ActiveDataProvider;
+use yii\db\StaleObjectException;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\Response;
 
 /**
  * MessageController implements the CRUD actions for Message model.
@@ -22,7 +23,7 @@ class MessageController extends Controller
     {
         return [
             'verbs' => [
-                'class' => VerbFilter::className(),
+                'class' => VerbFilter::class,
                 'actions' => [
                     'delete' => ['POST'],
                 ],
@@ -79,7 +80,6 @@ class MessageController extends Controller
     {
         $model = new Message();
 
-        $model->from_user_id = Yii::$app->user->id;
         $model->is_admin_create = true;
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
@@ -125,10 +125,12 @@ class MessageController extends Controller
      *
      * @param integer $id
      *
-     * @return mixed
+     * @return Response
      * @throws NotFoundHttpException if the model cannot be found
+     * @throws \Throwable
+     * @throws StaleObjectException
      */
-    public function actionDelete($id)
+    public function actionDelete(int $id): Response
     {
         $this->findModel($id)->delete();
 
@@ -144,7 +146,7 @@ class MessageController extends Controller
      * @return Message the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
-    protected function findModel($id)
+    protected function findModel(int $id): Message
     {
         if (($model = Message::findOne($id)) !== null) {
             return $model;

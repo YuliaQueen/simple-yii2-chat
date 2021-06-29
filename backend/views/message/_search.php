@@ -17,8 +17,6 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'id') ?>
 
-    <?= $form->field($model, 'from_user_id') ?>
-
     <?= $form->field($model, 'text') ?>
 
     <?= $form->field($model, 'is_correct')->checkbox() ?>

@@ -12,8 +12,6 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'from_user_id')->hiddenInput()->label(false) ?>
-
     <?= $form->field($model, 'text')->textarea(['rows' => 6]) ?>
 
     <?= $form->field($model, 'is_correct')->checkbox() ?>

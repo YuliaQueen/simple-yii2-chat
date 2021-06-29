@@ -82,7 +82,6 @@ class SiteController extends Controller
         $messages = Message::find()->notDeleted()->all();
 
         if (Yii::$app->request->isPost) {
-            $model->from_user_id = Yii::$app->user->id;
             $model->is_admin_create = Yii::$app->user->can(Permission::ADMIN);
             if ($model->load(Yii::$app->request->post()) && $model->save()) {
                 return $this->redirect(['index']);

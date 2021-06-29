@@ -63,7 +63,6 @@ class SiteController extends Controller
 
     /**
      * Login action.
-     *
      */
     public function actionLogin()
     {
@@ -76,17 +75,18 @@ class SiteController extends Controller
         $model = new LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
             return $this->goHome();
-        } else {
-            $model->password = '';
-
-            return $this->render(
-                'login',
-                [
-                    'model' => $model,
-                ]
-            );
         }
+
+        $model->password = '';
+
+        return $this->render(
+            'login',
+            [
+                'model' => $model,
+            ]
+        );
     }
+
 
     /**
      * @return Response

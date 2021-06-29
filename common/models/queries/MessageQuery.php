@@ -2,9 +2,6 @@
 
 namespace common\models\queries;
 
-use yii\base\Model;
-use yii\data\ActiveDataProvider;
-use common\models\domains\Message;
 use yii\db\ActiveQuery;
 
 /**
@@ -21,6 +18,10 @@ class MessageQuery extends ActiveQuery
         return $this->andWhere(['deleted_at' => 0]);
     }
 
+    /**
+     * Добавляет условие на выборку корректных сообщений.
+     * @return MessageQuery
+     */
     public function whereCorrect(): MessageQuery
     {
         return $this->andWhere(['is_correct' => true]);

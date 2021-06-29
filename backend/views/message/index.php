@@ -23,12 +23,6 @@ $this->params['breadcrumbs'][] = $this->title;
                 ['class' => 'yii\grid\SerialColumn'],
 
                 'id',
-                [
-                    'attribute' => 'from_user_id',
-                    'value' => function (Message $model) {
-                        return $model->createdBy->name;
-                    },
-                ],
                 'text:ntext',
                 'is_correct:boolean',
                 'deleted_at:boolean',

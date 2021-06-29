@@ -7,13 +7,13 @@ use Yii;
 use yii\behaviors\BlameableBehavior;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveQuery;
+use yii\db\ActiveRecord;
 use yii2tech\ar\softdelete\SoftDeleteBehavior;
 
 /**
  * This is the model class for table "message".
  *
  * @property int $id
- * @property int $from_user_id
  * @property string $text
  * @property bool|null $is_correct
  * @property bool|null $is_admin_create
@@ -22,12 +22,10 @@ use yii2tech\ar\softdelete\SoftDeleteBehavior;
  * @property int|null $updated_by_id
  * @property int $created_at
  * @property int $updated_at
- *
- * @property User $fromUser
  * @property User $createdBy
  * @property User $updatedBy
  */
-class Message extends \yii\db\ActiveRecord
+class Message extends ActiveRecord
 {
     /**
      * {@inheritdoc}
@@ -65,12 +63,11 @@ class Message extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['from_user_id', 'text'], 'required'],
+            [['text'], 'required'],
             [['text'], 'string'],
             [['is_correct', 'is_admin_create'], 'boolean'],
             [[ 'is_admin_create'], 'default', 'value' => false],
             [[ 'deleted_at'], 'default', 'value' => 0],
-            [['from_user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['from_user_id' => 'id']],
             [['created_by_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['created_by_id' => 'id']],
             [['updated_by_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['updated_by_id' => 'id']],
         ];
@@ -83,7 +80,6 @@ class Message extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'from_user_id' => 'Автор сообщения',
             'text' => 'Текст',
             'is_correct' => 'Корректное',
             'is_admin_create' => 'Создано администратором',
@@ -96,21 +92,11 @@ class Message extends \yii\db\ActiveRecord
     }
 
     /**
-     * Gets query for [[FromUser]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
-    public function getFromUser()
-    {
-        return $this->hasOne(User::class, ['id' => 'from_user_id']);
-    }
-
-    /**
      * Gets query for [[CreatedBy]].
      *
-     * @return \yii\db\ActiveQuery
+     * @return ActiveQuery
      */
-    public function getCreatedBy()
+    public function getCreatedBy(): ActiveQuery
     {
         return $this->hasOne(User::class, ['id' => 'created_by_id']);
     }
@@ -118,9 +104,9 @@ class Message extends \yii\db\ActiveRecord
     /**
      * Gets query for [[UpdatedBy]].
      *
-     * @return \yii\db\ActiveQuery
+     * @return ActiveQuery
      */
-    public function getUpdatedBy()
+    public function getUpdatedBy(): ActiveQuery
     {
         return $this->hasOne(User::class, ['id' => 'updated_by_id']);
     }

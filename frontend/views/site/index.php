@@ -23,7 +23,7 @@ $this->title = 'Test Chat';
                                         Permission::SIMPLE_USER
                                     ) || Yii::$app->user->isGuest)) ? 'display:none' : '' ?>">
                                 <div class="message">
-                                    <span class="author_name"><?= $message->fromUser->name ?></span>
+                                    <span class="author_name"><?= $message->createdBy->name ?></span>
                                     <div class="<?= ($message->is_admin_create) ? 'admin_msg' : 'msg' ?>">
                                         <p style="<?= !$message->is_correct ? 'color:red' : '' ?>"><?= Html::encode($message->text) ?></p>
                                         <span class="time_date"><?= date(
