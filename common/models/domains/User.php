@@ -30,10 +30,6 @@ use yii2tech\ar\softdelete\SoftDeleteBehavior;
  * @property User $createdBy
  * @property User $updatedBy
  * @property AuthAssignment[] $authAssignments
- * @property string $username [varchar(255)]
- * @property string $password_reset_token [varchar(255)]
- * @property int $status [smallint]
- * @property string $verification_token [varchar(255)]
  */
 class User extends ActiveRecord implements IdentityInterface
 {
