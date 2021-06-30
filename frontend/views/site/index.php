@@ -12,7 +12,7 @@ use yii\widgets\ActiveForm;
 
 $this->title = 'Test Chat';
 ?>
-    <h3 class=" text-center">Сообщения</h3>
+    <h3 class=" text-center">Simple Yii2 Chat</h3>
     <div class="messaging">
         <div class="inbox_msg">
             <div class="mesgs">
